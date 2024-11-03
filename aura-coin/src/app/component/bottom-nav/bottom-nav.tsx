@@ -3,11 +3,11 @@
 import React from 'react';
 import { useState, useEffect } from 'react'
 import { HomeIcon, ClipboardListIcon, UsersIcon, PuzzleIcon, UserIcon } from 'lucide-react'
-import HomeScreen from './home-screen.tsx'
-import TasksScreen from './tasks-screen.tsx'
-import FrensScreen from './frens-screen.tsx'
-import GamesScreen from './games-screen.tsx'
-import ProfileScreen from './profile-screen.tsx'
+import HomeScreen from './home-screen'
+import TasksScreen from './tasks-screen'
+import FrensScreen from './frens-screen'
+import GamesScreen from './games-screen'
+import ProfileScreen from './profile-screen'
 
 export default function BottomNav() {
   const [activeTab, setActiveTab] = useState('home')
@@ -34,7 +34,7 @@ export default function BottomNav() {
   }
 
   const ActiveScreen = tabs.find(tab => tab.id === activeTab)?.component || HomeScreen
-
+  
   return (
     <div className="h-screen bg-gray-900 flex flex-col">
       <div className="flex-1 overflow-y-auto">
@@ -49,7 +49,7 @@ export default function BottomNav() {
                 onClick={(e) => handleTabClick(tab.id, e)}
                 className={`relative flex flex-col items-center justify-center w-full py-2 overflow-hidden ${
                   activeTab === tab.id ? 'text-blue-400' : 'hover:text-gray-100'
-                }`}
+                }`} 
               >
                 <tab.icon className="w-6 h-6 mb-1" />
                 <span className="text-xs">{tab.label}</span>
