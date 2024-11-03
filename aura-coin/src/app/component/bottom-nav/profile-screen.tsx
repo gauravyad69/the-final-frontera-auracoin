@@ -1,15 +1,41 @@
 'use client'
 
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { User, Wallet, History, Eye, EyeOff, Award } from 'lucide-react'
+import WebApp from '@twa-dev/sdk'
+import { UserContext } from "../main/userContexProvider";
+
 
 
 export default function ProfileScreen() {
   const [isProfileVisible, setIsProfileVisible] = useState(true)
 
+
+  const [id, setId] = useContext(UserContext);
+  const [userId, setUserId] = useContext(UserContext);
+  const [username, setUsername] = useContext(UserContext);
+  const [firstName, setFirstName] = useContext(UserContext);
+  const [lastName, setLastName] = useContext(UserContext);
+  const [isPremium, setIsPremium] = useContext(UserContext);
+  const [isBot, setIsBot] = useContext(UserContext);
+  const [userPhotoUrl, setUserPhotoUrl] = useContext(UserContext);
+
+  
+ const fetchUserId = async () => {
+  try {
+    const _userId = new String(WebApp.initDataUnsafe.user);
+      setUserId(_userId.toString); // Set the fetched user ID
+      
+  } catch (error) {
+  console.log("error at fetchUserID from telegram SDK")
+  } 
+ }
+  fetchUserId;
+
+  //ui
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 p-4 sm:p-6 lg:p-8">
       <Card className="max-w-2xl mx-auto bg-gray-800 border-gray-700">
@@ -19,8 +45,8 @@ export default function ProfileScreen() {
               <User className="w-12 h-12 text-gray-400" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold">JohnDoe123</h2>
-              <p className="text-sm text-gray-400">@johndoe</p>
+              <h2 className="text-2xl font-bold">{firstName} {lastName}</h2>
+              <p className="text-sm text-gray-400">@{userId}</p>
             </div>
           </div>
         </CardHeader>
@@ -33,15 +59,15 @@ export default function ProfileScreen() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
                 <div className="bg-gray-700 p-4 rounded-lg text-center">
                   <p className="text-sm text-gray-400">Rank</p>
-                  <p className="text-2xl font-bold">Gold</p>
+                  <p className="text-2xl font-bold">None</p>
                 </div>
                 <div className="bg-gray-700 p-4 rounded-lg text-center">
                   <p className="text-sm text-gray-400">Balance</p>
-                  <p className="text-2xl font-bold">$1,234.56</p>
+                  <p className="text-2xl font-bold">$00.00</p>
                 </div>
                 <div className="bg-gray-700 p-4 rounded-lg text-center">
                   <p className="text-sm text-gray-400">Posts</p>
-                  <p className="text-2xl font-bold">42</p>
+                  <p className="text-2xl font-bold">0</p>
                 </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
