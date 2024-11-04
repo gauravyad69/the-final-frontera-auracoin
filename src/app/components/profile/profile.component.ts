@@ -3,17 +3,8 @@ import { Component, signal, computed, effect, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from './user.service';
+import { User } from './user.service';
 
-interface User {
-  id: string;
-  userId: string;
-  username: string;
-  firstName: string;
-  lastName: string;
-  isPremium: boolean;
-  isBot: boolean;
-  userPhotoUrl: string;
-}
 
 @Component({
   selector: 'app-profile',

@@ -1,9 +1,11 @@
 // user.service.ts
 import { Injectable, signal, computed } from '@angular/core';
+import WebApp from '@twa-dev/sdk';
+import { isObservable, last } from 'rxjs';
 
-interface User {
-  id: string;
-  userId: string;
+export interface User {
+  id: number;
+  userId: number;
   username: string;
   firstName: string;
   lastName: string;
@@ -17,8 +19,8 @@ interface User {
 })
 export class UserService {
   private userSignal = signal<User>({
-    id: '',
-    userId: '',
+    id: 0,
+    userId: 0,
     username: '',
     firstName: '',
     lastName: '',
@@ -39,11 +41,36 @@ export class UserService {
 
   async getCurrentUser(): Promise<User> {
     // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(this.userSignal());
-      }, 500);
-    });
+console.log("getting user from telegram")
+
+    const telegramUser = WebApp.initDataUnsafe.user;
+    
+    const userId=telegramUser?.id
+    const username=telegramUser?.username
+    const firstName=telegramUser?.first_name
+    const lastName=telegramUser?.last_name
+    const isPremium=telegramUser?.is_premium
+    const is_bot=telegramUser?.is_bot
+    const userPhotoUrl=telegramUser?.photo_url
+
+   const userdata: User={
+      id:userId?? 0,
+      userId:userId?? 0,
+      username:username??"none",
+      firstName:firstName??"none",
+      lastName:lastName??"none",
+      isPremium:isPremium??false,
+      isBot:is_bot??false,
+      userPhotoUrl:userPhotoUrl??"null"
+    }
+
+   return userdata;
+
+    // return new Promise((resolve) => {
+    //   setTimeout(() => {
+    //     resolve(this.userSignal());
+    //   }, 500);
+    // });
   }
 
   updateUser(userData: Partial<User>) {
