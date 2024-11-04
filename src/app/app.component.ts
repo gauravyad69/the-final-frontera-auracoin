@@ -14,6 +14,7 @@ export class AppComponent {
 
   ngOnInit(){
     WebApp.expand();
+    WebApp.showAlert("Hello there!")
   }
-  
+
 }
