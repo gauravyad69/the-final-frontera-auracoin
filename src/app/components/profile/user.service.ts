@@ -52,7 +52,7 @@ console.log("getting user from telegram")
     const isPremium=telegramUser?.is_premium
     const is_bot=telegramUser?.is_bot
     const userPhotoUrl=telegramUser?.photo_url
-
+console.log(username)
    const userdata: User={
       id:userId?? 0,
       userId:userId?? 0,
@@ -64,6 +64,7 @@ console.log("getting user from telegram")
       userPhotoUrl:userPhotoUrl??"null"
     }
 
+    console.log(userdata)
    return userdata;
 
     // return new Promise((resolve) => {
