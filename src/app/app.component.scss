@@ -1,6 +1,8 @@
-.app-container {
-    min-height: 100vh;
+.app-content {
+    min-height: 91%;//no scroll is induced when the min height is set to 91%
     background-color: #121212;
     color: white;
+    margin: 0px;
     padding-bottom: 60px; // Height of bottom nav
+    
   }
