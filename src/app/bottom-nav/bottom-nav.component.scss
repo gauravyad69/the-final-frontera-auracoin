@@ -1,0 +1,145 @@
+// Variables
+$nav-height: 60px;
+$nav-bg: #1a1a1a;
+$nav-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+$nav-item-padding: 8px;
+
+// Colors
+$color-inactive: #888;
+$color-hover: #fff;
+$color-active: #4CAF50;
+
+// Typography
+$icon-size: 24px;
+$text-size: 12px;
+
+// Transitions
+$transition-speed: 0.3s;
+$transition-easing: ease;
+
+// Bottom Navigation
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: $nav-height;
+  background-color: $nav-bg;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  box-shadow: $nav-shadow;
+  z-index: 1000;
+
+  // iOS safe area support
+  padding-bottom: env(safe-area-inset-bottom);
+
+  // Optional: Add a subtle border top
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  // Navigation Items
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: $color-inactive;
+    cursor: pointer;
+    transition: all $transition-speed $transition-easing;
+    padding: $nav-item-padding;
+    text-decoration: none;
+    min-width: 64px; // Ensure minimum touch target size
+    
+    // Hover state
+    &:hover {
+      color: $color-hover;
+      transform: translateY(-2px);
+    }
+    
+    // Active state
+    &.active {
+      color: $color-active;
+      
+      i {
+        transform: scale(1.1);
+      }
+    }
+    
+    // Icon styles
+    i {
+      font-size: $icon-size;
+      margin-bottom: 4px;
+      transition: transform $transition-speed $transition-easing;
+    }
+    
+    // Text styles
+    span {
+      font-size: $text-size;
+      font-weight: 500;
+      transition: opacity $transition-speed $transition-easing;
+      white-space: nowrap;
+    }
+
+    // Optional: Add ripple effect for touch feedback
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+// Media Queries
+@media (max-width: 360px) {
+  .bottom-nav {
+    .nav-item {
+      padding: 6px;
+      min-width: 56px;
+      
+      i {
+        font-size: $icon-size - 2px;
+      }
+      
+      span {
+        font-size: $text-size - 1px;
+      }
+    }
+  }
+}
+
+// Optional: Dark mode support
+@media (prefers-color-scheme: light) {
+  .bottom-nav {
+    background-color: #ffffff;
+    box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+
+    .nav-item {
+      color: rgba(0, 0, 0, 0.6);
+
+      &:hover {
+        color: rgba(0, 0, 0, 0.9);
+      }
+
+      &.active {
+        color: $color-active;
+      }
+    }
+  }
+}
+
+// Optional: Reduced motion preference
+@media (prefers-reduced-motion: reduce) {
+  .bottom-nav .nav-item {
+    transition: none;
+    
+    &:hover {
+      transform: none;
+    }
+    
+    &:active {
+      transform: none;
+    }
+    
+    &.active i {
+      transform: none;
+    }
+  }
+}
