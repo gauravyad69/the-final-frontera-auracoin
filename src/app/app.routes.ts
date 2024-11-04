@@ -1,25 +1,22 @@
-import { Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+import { LeaderboardComponent } from './components/leaderboard/leaderboard.component';
+import { TasksComponent } from './components/tasks/tasks.component';
+import { FriendsComponent } from './components/friends/friends.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { 
-    path: 'home',
-    loadComponent: () => import('./components/home/home.component').then(m => m.HomeComponent)
-  },
-  { 
-    path: 'leaderboard',
-    loadComponent: () => import('./components/leaderboard/leaderboard.component').then(m => m.LeaderboardComponent)
-  },
-  { 
-    path: 'tasks',
-    loadComponent: () => import('./components/tasks/tasks.component').then(m => m.TasksComponent)
-  },
-  { 
-    path: 'friends',
-    loadComponent: () => import('./components/friends/friends.component').then(m => m.FriendsComponent)
-  },
-  { 
-    path: 'profile',
-    loadComponent: () => import('./components/profile/profile.component').then(m => m.ProfileComponent)
-  }
+  { path: 'home', component: HomeComponent },
+  { path: 'leaderboard', component: LeaderboardComponent },
+  { path: 'tasks', component: TasksComponent },
+  { path: 'friends', component: FriendsComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' }, // Default route
 ];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
