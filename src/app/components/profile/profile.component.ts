@@ -12,6 +12,7 @@ import { User } from './user.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
+
 export class ProfileComponent {
   private userService = inject(UserService);
   
