@@ -1,20 +1,24 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { BottomNavComponent } from './bottom-nav/bottom-nav.component';
+import { HttpClientModule } from '@angular/common/http';
 import WebApp from '@twa-dev/sdk';
 import { TelegramUserStore } from './store/user.store';
-import { ApiService } from './api/api.service'; // Adjust the import path as necessary
-
+import { ApiService } from './api/api.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, BottomNavComponent],
+  imports: [
+    RouterOutlet, 
+    BottomNavComponent,
+    HttpClientModule
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  store = inject(TelegramUserStore);//this injects the store into this component
+  store = inject(TelegramUserStore);
   constructor(private apiService: ApiService) {}
 
   ngOnInit(){
