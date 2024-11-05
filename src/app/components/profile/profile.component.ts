@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from './user.service';
 import { User } from './user.service';
-
+import { TelegramUserStore } from '../../store/user.store';
 
 @Component({
   selector: 'app-profile',
@@ -15,14 +15,19 @@ import { User } from './user.service';
 
 export class ProfileComponent {
   private userService = inject(UserService);
+  store = inject(TelegramUserStore);//this injects the store into this component
+
   
   // Signals
   user = signal<User | null>(null);
   isProfileVisible = signal(true);
   posts = signal(0);
-  balance = signal(0);
+  
   rank = signal('None');
   
+
+  //from store
+  balance = this.store.telegramUser.balanceInfo.refBonus;
   // Computed values
   formattedBalance = computed(() => {
     return new Intl.NumberFormat('en-US', {

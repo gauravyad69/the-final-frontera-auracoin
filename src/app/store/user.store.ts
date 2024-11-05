@@ -1,4 +1,4 @@
-import {signalStore, withState} from '@ngrx/signals';
+import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
 import { TelegramUser } from './user.model';
 
 type TelegramUserState = {
@@ -17,7 +17,7 @@ const initialTelegramUserState: TelegramUserState={
             totalBalance: 69,
             balance: 69,
             tapBalance: 0,
-            refBonus: 0,
+            refBonus: 69420,
             energy: 0
         },
         upgradesInfo: {
@@ -40,6 +40,23 @@ const initialTelegramUserState: TelegramUserState={
 
 
 export const TelegramUserStore = signalStore(
-    {providedIn: 'root'},
-    withState(initialTelegramUserState),
+    {providedIn: 'root'},///this right here will allow every component to access this store
+    withState(initialTelegramUserState),//our starting state is this
+    withMethods((store)=>({
+
+        updateUserRefBonus(refBonusValue:number){
+            patchState(store,{
+                telegramUser: {
+                    ...store.telegramUser(),///this preserves the data i.e doesn't update the the other data except the data specified below i.e BalanceInfo
+                    balanceInfo: {
+                        ...store.telegramUser().balanceInfo,
+                        refBonus: refBonusValue
+                    }
+                }
+            })
+        },
+//another method can be written here
+
+    }))
+
 );

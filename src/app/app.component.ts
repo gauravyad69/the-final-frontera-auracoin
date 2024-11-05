@@ -12,9 +12,11 @@ import { TelegramUserStore } from './store/user.store';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  store = inject(TelegramUserStore)
-  
+  store = inject(TelegramUserStore);//this injects the store into this component
+
   ngOnInit(){
+
+    //todo fetch the data from api to update the values/state inside the store
     WebApp.expand();
     WebApp.showAlert("Hello there! Your Balance is ", this.store.telegramUser.balanceInfo.totalBalance)
   }
