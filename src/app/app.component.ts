@@ -3,6 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { BottomNavComponent } from './bottom-nav/bottom-nav.component';
 import WebApp from '@twa-dev/sdk';
 import { TelegramUserStore } from './store/user.store';
+import { ApiService } from './api/api.service'; // Adjust the import path as necessary
+
 
 @Component({
   selector: 'app-root',
@@ -13,13 +15,32 @@ import { TelegramUserStore } from './store/user.store';
 })
 export class AppComponent {
   store = inject(TelegramUserStore);//this injects the store into this component
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(){
 
     //todo fetch the data from api to update the values/state inside the store
     WebApp.expand();
-    WebApp.showAlert("Hello there! Your Balance is ", this.store.telegramUser.balanceInfo.totalBalance)
+    WebApp.showAlert("Hello there! Your Balance is ", this.store.telegramUser.balanceInfo.refBonus)
+   
+    const userId = WebApp.initDataUnsafe.user?.id??0;
+    const username = WebApp.initDataUnsafe.user?.username??"";
+   
+
+  this.apiService.register(userId.toString(), username).subscribe({
+    next: (response) => {
+      console.log('Registration successful');
+      // The token is automatically set in the headers
+      // You can now make authenticated requests
+      console.log(response, "success");
+    },
+    error: (error) => {
+      console.error('Registration failed:', error);
+    }
+  });
+
+  }
+ 
   }
   
 
-}

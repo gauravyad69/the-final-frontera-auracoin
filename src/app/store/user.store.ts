@@ -1,9 +1,14 @@
 import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
-import { TelegramUser } from './user.model';
+import { TelegramUser,TapValue } from './user.model';
+import { Inject, Injectable } from '@angular/core';
+
+
+
 
 type TelegramUserState = {
     telegramUser: TelegramUser;
 }
+
 
 const initialTelegramUserState: TelegramUserState={
     telegramUser: {
@@ -55,7 +60,18 @@ export const TelegramUserStore = signalStore(
                 }
             })
         },
-//another method can be written here
+
+        updateTapValue(newTapValue: TapValue) {
+            patchState(store, {
+                telegramUser: {
+                    ...store.telegramUser(),
+                    upgradesInfo: {
+                        ...store.telegramUser().upgradesInfo,
+                        tapValue: newTapValue
+                    }
+                }
+            });
+        }
 
     }))
 
