@@ -27,7 +27,7 @@ export class ProfileComponent {
   
 
   //from store
-  balance = this.store.telegramUser.balanceInfo.refBonus;
+  balance = this.store.telegramUser.balanceInfo.refBonus;//this is a test
   // Computed values
   formattedBalance = computed(() => {
     return new Intl.NumberFormat('en-US', {
