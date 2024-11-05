@@ -40,5 +40,6 @@ const initialTelegramUserState: TelegramUserState={
 
 
 export const TelegramUserStore = signalStore(
-    withState(initialTelegramUserState)
+    {providedIn: 'root'},
+    withState(initialTelegramUserState),
 );
