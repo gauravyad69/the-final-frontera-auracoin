@@ -32,6 +32,7 @@ export class UserFacade {
     this.api.getTelegramUser().subscribe({
       next: (user: TelegramUser) => {
         console.log('Current balance:', user.balanceInfo.balance); // Log or handle the balance as needed
+        console.log('Current refBOnus:', user.balanceInfo.refBonus); // Log or handle the balance as needed
         this.store.updateUserRefBonus(user.balanceInfo.refBonus); // Update the state with the new refBonus
       },
       error: (error) => console.error('Error fetching balance:', error)

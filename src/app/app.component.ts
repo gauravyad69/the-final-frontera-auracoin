@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import WebApp from '@twa-dev/sdk';
 import { TelegramUserStore } from './store/user.store';
 import { ApiService } from './api/api.service';
+import { UserFacade } from './api/user.facade';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ import { ApiService } from './api/api.service';
 })
 export class AppComponent {
   store = inject(TelegramUserStore);
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService,private userFacade: UserFacade) {}
 
   ngOnInit(){
 
@@ -36,6 +37,7 @@ export class AppComponent {
       console.log('Registration successful');
       // The token is automatically set in the headers
       // You can now make authenticated requests
+      this.userFacade.getBalance();
       console.log(response, "success");
     },
     error: (error) => {
