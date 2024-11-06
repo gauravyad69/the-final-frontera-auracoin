@@ -1,4 +1,4 @@
-@if (user(); as user) {
+@if (userInfo(); as user) {
   <div class="profile-container">
     <div class="profile-card">
       <!-- Header -->
@@ -20,46 +20,35 @@
           <i class="fas fa-award"></i> Update Badge
         </button>
 
-        @if (isProfileVisible()) {
-          <div class="stats-grid">
-            <div class="stat-card">
-              <p class="stat-label">Rank</p>
-              <p class="stat-value">{{rank()}}</p>
-            </div>
-            <div class="stat-card">
-              <p class="stat-label">Balance</p>
-              <p class="stat-value">{{formattedBalance()}}</p>
-            </div>
-            <div class="stat-card">
-              <p class="stat-label">Posts</p>
-              <p class="stat-value">{{posts()}}</p>
-            </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <p class="stat-label">Rank</p>
+            <p class="stat-value">{{store.telegramUser().upgradesInfo.level.name}}</p>
           </div>
+          <div class="stat-card">
+            <p class="stat-label">Balance</p>
+            <p class="stat-value">{{getFormattedBalance()}}</p>
+          </div>
+          <div class="stat-card">
+            <p class="stat-label">Referrals</p>
+            <p class="stat-value">{{user.referrals.length}}</p>
+          </div>
+        </div>
 
-          <div class="action-buttons">
-            <button class="btn btn-wallet" (click)="openWallet()">
-              <i class="fas fa-wallet"></i> Wallet
-            </button>
-            <button class="btn btn-history" (click)="openHistory()">
-              <i class="fas fa-history"></i> History
-            </button>
-          </div>
-        }
+        <div class="action-buttons">
+          <button class="btn btn-wallet" (click)="openWallet()">
+            <i class="fas fa-wallet"></i> Wallet
+          </button>
+          <button class="btn btn-history" (click)="openHistory()">
+            <i class="fas fa-history"></i> History
+          </button>
+        </div>
       </div>
 
       <!-- Footer -->
       <div class="card-footer">
-        <div class="visibility-toggle">
-          <div class="toggle-label">
-            <span>Hide Profile</span>
-            <i [class]="isProfileVisible() ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
-          </div>
-          <div class="toggle-switch" [class.active]="isProfileVisible()" (click)="toggleProfile()">
-            <div class="toggle-slider"></div>
-          </div>
-        </div>
         <p class="toggle-description">
-          Enable this option to hide your Telegram profile from other users.
+          Your Telegram profile information
         </p>
       </div>
     </div>

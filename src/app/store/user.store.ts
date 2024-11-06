@@ -1,5 +1,5 @@
 import {patchState, signalStore, withMethods, withState} from '@ngrx/signals';
-import { TelegramUser,TapValue } from './user.model';
+import { TelegramUser,TapValue, UserInfo } from './user.model';
 import { Inject, Injectable } from '@angular/core';
 
 
@@ -16,6 +16,9 @@ const initialTelegramUserState: TelegramUserState={
             userId: '',
             username: '',
             firstName: '',
+            lastName: '',
+            isPremium: false,
+            profilePicture: '',
             referrals: []
         },
         balanceInfo: {
@@ -71,7 +74,21 @@ export const TelegramUserStore = signalStore(
                     }
                 }
             });
-        }
+        },
+
+        updateUserInfoInUI(newUserInfo: UserInfo){
+            patchState(store, {
+                telegramUser: {
+                    ...store.telegramUser(),
+                    userInfo: newUserInfo
+                }
+            });
+        },
+        updateEverythingInUI(telegramUser: TelegramUser){
+            patchState(store, {
+                telegramUser: telegramUser
+            });
+        },
 
     }))
 

@@ -11,7 +11,7 @@ import { UserFacade } from './api/user.facade';
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet, 
+    RouterOutlet,
     BottomNavComponent,
     HttpClientModule
   ],
@@ -20,33 +20,75 @@ import { UserFacade } from './api/user.facade';
 })
 export class AppComponent {
   store = inject(TelegramUserStore);
-  constructor(private apiService: ApiService,private userFacade: UserFacade) {}
+  constructor(private apiService: ApiService, private userFacade: UserFacade) { }
 
-  ngOnInit(){
+  ngOnInit() {
 
     //todo fetch the data from api to update the values/state inside the store
     WebApp.expand();
     WebApp.showAlert("Hello there! Your Balance is ", this.store.telegramUser.balanceInfo.refBonus)
-   
-    const userId = WebApp.initDataUnsafe.user?.id??0;
-    const username = WebApp.initDataUnsafe.user?.username??"";
-   
 
-  this.apiService.register(userId.toString(), username).subscribe({
-    next: (response) => {
-      console.log('Registration successful');
-      // The token is automatically set in the headers
-      // You can now make authenticated requests
-      this.userFacade.getBalance();
-      console.log(response, "success");
-    },
-    error: (error) => {
-      console.error('Registration failed:', error);
-    }
-  });
+    const userId = WebApp.initDataUnsafe.user?.id ?? 0;
+    const username = WebApp.initDataUnsafe.user?.username ?? "";
+
+
+    this.apiService.register(userId.toString(), username).subscribe({
+      next: (response) => {
+        //registration successful
+      },
+      error: (error) => {
+        WebApp.showAlert("Registration failed, Do you have a username?");
+        WebApp.showAlert("Registration failed:", error);
+        WebApp.close();
+      }
+    });
+
+
+
+    this.checkUserExists().then(exists => {
+      if (exists) {
+        this.userFacade.getTelegramUserInfo();///get user info from api
+      } else {
+        // Do something if user doesn't exist
+        //create user later
+      }
+    });
+
+
+
+
+
+
+    this.userFacade.getBalance();
+
+
 
   }
- 
+
+
+
+  //check if user exists
+  async checkUserExists(): Promise<boolean> {
+    return new Promise((resolve) => {
+      this.apiService.checkIfUserExistsInDB().subscribe({
+        next: (exists) => {
+          if (exists) {
+            console.log('User exists');
+            resolve(true);
+          } else {
+            console.log('User does not exist');
+            resolve(false);
+          }
+        },
+        error: (error) => {
+          console.error('Error checking user:', error);
+          resolve(false);
+        }
+      });
+    });
   }
-  
+
+
+}
+
 

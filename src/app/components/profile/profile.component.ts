@@ -1,10 +1,11 @@
 // profile.component.ts
-import { Component, signal, computed, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from './user.service';
 import { User } from './user.service';
 import { TelegramUserStore } from '../../store/user.store';
+import { UserFacade } from '../../api/user.facade';
 
 @Component({
   selector: 'app-profile',
@@ -14,67 +15,36 @@ import { TelegramUserStore } from '../../store/user.store';
 })
 
 export class ProfileComponent {
-  private userService = inject(UserService);
-  store = inject(TelegramUserStore);//this injects the store into this component
+  store = inject(TelegramUserStore);
+  private userFacade = inject(UserFacade);
 
-  
-  // Signals
-  user = signal<User | null>(null);
-  isProfileVisible = signal(true);
-  posts = signal(0);
-  
-  rank = signal('None');
-  
+  // Access store values
+  userInfo = this.store.telegramUser.userInfo;
 
-  //from store
-  balance = this.store.telegramUser.balanceInfo.refBonus;//this is a test
-  // Computed values
-  formattedBalance = computed(() => {
+  getFormattedBalance(): string {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD'
-    }).format(this.balance());
-  });
-
-  constructor() {
-    // Setup effect to handle profile visibility changes
-    effect(() => {
-      if (this.isProfileVisible()) {
-        console.log('Profile is now visible');
-      } else {
-        console.log('Profile is now hidden');
-      }
-    });
-
-    // Initialize user data
+    }).format(this.store.telegramUser().balanceInfo.totalBalance);
+  }
+  
+constructor(){
     this.initializeUserData();
   }
 
-  private async initializeUserData() {
-    try {
-      const userData = await this.userService.getCurrentUser();
-      this.user.set(userData);
-    } catch (error) {
-      console.error('Failed to load user data:', error);
-    }
-  }
-
-  toggleProfile() {
-    this.isProfileVisible.update(visible => !visible);
+  private initializeUserData() {
+    this.userFacade.getTelegramUserInfo();
   }
 
   updateBadge() {
-    // Implement badge update logic
     console.log('Updating badge...');
   }
 
   openWallet() {
-    // Implement wallet opening logic
     console.log('Opening wallet...');
   }
 
   openHistory() {
-    // Implement history opening logic
     console.log('Opening history...');
   }
 }

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TelegramUser, TimeRefill, Level, Battery, TapValue, Referral } from '../store/user.model';
 import { Observable } from 'rxjs';
 import { TelegramUserStore } from '../store/user.store';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +32,8 @@ export class ApiService {
     return this.http.post<{ token: string }>(`${this.BASE_API_URL}/login`, { userId, username }, { headers: this.headers });
   }
 
+
+
   register(userId: string, username: string): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`${this.BASE_API_URL}/register`, { userId, username })
       .pipe(
@@ -47,6 +49,15 @@ export class ApiService {
   getTelegramUser(): Observable<TelegramUser> {
     console.log("trying to get TelegramUser from the api (api.services.ts)")
     return this.http.get<TelegramUser>(`${this.BASE_API_URL}/telegramUser`, { headers: this.headers });
+  }
+
+  checkIfUserExistsInDB(): Observable<number> {
+    return this.http.get(`${this.BASE_API_URL}/exists`, { 
+      headers: this.headers,
+      observe: 'response'  // This allows us to access the full response, not just the body
+    }).pipe(
+      map(response => response.status)  // Extract just the status code
+    );
   }
 
   updateTelegramUser(updatedData: Partial<TelegramUser>): Observable<TelegramUser> {

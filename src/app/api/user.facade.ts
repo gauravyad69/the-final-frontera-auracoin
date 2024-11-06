@@ -40,4 +40,14 @@ export class UserFacade {
   }
 
 
+  //this will handle the ui update at the start of the app
+  getTelegramUserInfo(){
+    this.api.getTelegramUser().subscribe({
+      next: (user: TelegramUser) => {
+        this.store.updateEverythingInUI(user);///get the "user" from the api and store it in the state
+      },
+    });
+  }
+
+
 } 

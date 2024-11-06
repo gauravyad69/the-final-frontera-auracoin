@@ -1,8 +1,9 @@
 // user.service.ts
 import { Injectable, signal, computed } from '@angular/core';
 import WebApp from '@twa-dev/sdk';
-import { isObservable, last } from 'rxjs';
 
+
+///this is not in use anymore
 export interface User {
   id: number;
   userId: number;
