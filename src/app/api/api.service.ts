@@ -51,15 +51,23 @@ export class ApiService {
     return this.http.get<TelegramUser>(`${this.BASE_API_URL}/telegramUser`, { headers: this.headers });
   }
 
-  checkIfUserExistsInDB(): Observable<number> {
-    return this.http.get(`${this.BASE_API_URL}/exists`, { 
-      headers: this.headers,
-      observe: 'response'  // This allows us to access the full response, not just the body
-    }).pipe(
-      map(response => response.status)  // Extract just the status code
+  checkIfUserExistsInDB(userId: string, username: string): Observable<number> {
+    console.log("trying to get checkUserResponse from the api (api.services.ts)")
+
+    return this.http.post(`${this.BASE_API_URL}/exists`, 
+      { 
+        userId, 
+        username 
+      }, 
+      { 
+        observe: 'response'
+      }
+    ).pipe(
+      map(response => response.status)
     );
   }
 
+  
   updateTelegramUser(updatedData: Partial<TelegramUser>): Observable<TelegramUser> {
     return this.http.patch<TelegramUser>(`${this.BASE_API_URL}/telegramUser`, updatedData, { headers: this.headers });
   }

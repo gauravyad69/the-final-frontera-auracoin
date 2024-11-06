@@ -22,11 +22,10 @@ export class AppComponent {
   store = inject(TelegramUserStore);
   constructor(private apiService: ApiService, private userFacade: UserFacade) { }
 
-  ngOnInit() {
+  async ngOnInit() {
 
     //todo fetch the data from api to update the values/state inside the store
     WebApp.expand();
-    WebApp.showAlert("Hello there! Your Balance is ", this.store.telegramUser.balanceInfo.refBonus)
 
     const userId = WebApp.initDataUnsafe.user?.id ?? 0;
     const username = WebApp.initDataUnsafe.user?.username ?? "";
@@ -45,14 +44,14 @@ export class AppComponent {
 
 
 
-    this.checkUserExists().then(exists => {
-      if (exists) {
-        this.userFacade.getTelegramUserInfo();///get user info from api
-      } else {
-        // Do something if user doesn't exist
-        //create user later
-      }
-    });
+    const exists = await this.checkUserExists(userId.toString(), username);
+    if (exists) {
+      this.userFacade.getTelegramUserInfo();///get user info from api
+    } else {
+      console.log("user doesn't exist in DB")
+      // Do something if user doesn't exist
+      //create user later
+    }
 
 
 
@@ -64,15 +63,11 @@ export class AppComponent {
 
 
   }
-
-
-
-  //check if user exists
-  async checkUserExists(): Promise<boolean> {
+  async checkUserExists(userId: string, username: string): Promise<boolean> {
     return new Promise((resolve) => {
-      this.apiService.checkIfUserExistsInDB().subscribe({
-        next: (exists) => {
-          if (exists) {
+      this.apiService.checkIfUserExistsInDB(userId, username).subscribe({
+        next: (statusCode) => {
+          if (statusCode === 200) {
             console.log('User exists');
             resolve(true);
           } else {
@@ -87,6 +82,8 @@ export class AppComponent {
       });
     });
   }
+
+
 
 
 }
