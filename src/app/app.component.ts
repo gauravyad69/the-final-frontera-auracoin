@@ -49,16 +49,8 @@ export class AppComponent {
       this.userFacade.getTelegramUserInfo();///get user info from api
     } else {
       console.log("user doesn't exist in DB")
-      // Do something if user doesn't exist
-      //create user later
     }
 
-
-
-
-
-
-    this.userFacade.getBalance();
 
 
 

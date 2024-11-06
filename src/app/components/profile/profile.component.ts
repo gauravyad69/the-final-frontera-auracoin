@@ -27,14 +27,6 @@ export class ProfileComponent {
       currency: 'USD'
     }).format(this.store.telegramUser().balanceInfo.totalBalance);
   }
-  
-constructor(){
-    this.initializeUserData();
-  }
-
-  private initializeUserData() {
-    this.userFacade.getTelegramUserInfo();
-  }
 
   updateBadge() {
     console.log('Updating badge...');
