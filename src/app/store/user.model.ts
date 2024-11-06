@@ -10,7 +10,7 @@ export interface TelegramUser {
     username: string;
     firstName: string;
     lastName?: string;
-    isPremium: boolean;
+    isPremium: Boolean;
     profilePicture?: string;
     refereeId?: string;
     referrals: Referral[];
