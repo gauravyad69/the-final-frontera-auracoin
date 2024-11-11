@@ -4,6 +4,7 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { LucideAngularModule } from 'lucide-angular';
 import { Users, Copy, CheckCircle, Coins } from 'lucide-angular';
 import { TelegramUserStore } from '../../store/user.store';
+import { WebApp } from '@twa-dev/sdk/dist/sdk';
 
 interface Referral {
   userId: string;
@@ -34,7 +35,7 @@ export class FriendsComponent {
   readonly Coins = Coins;
 
   copied = signal(false);
-  inviteLink = signal('https://t.me/blum/app?startapp=ref_'+this.userInfo.userId);
+  inviteLink = signal('https://t.me/blum/app?startapp=ref_'+WebApp.initDataUnsafe.user?.id);
 
   // referrals: Referral[] = [
   //   { userId: "1", username: 'Alice Johnson', balance: 500, referrals: 3 },
@@ -45,11 +46,14 @@ export class FriendsComponent {
   // ];
 
   // Just store the referrals directly from state
-  referrals: Referral[] = [];
+  referrals: Referral[] = this.store.telegramUser.userInfo().referrals;
 
-  constructor() {
-    this.referrals = this.store.telegramUser.userInfo().referrals;
-  }
+//   constructor() {
+//   }
+
+// ngInit(){
+//   this.referrals =this.store.telegramUser.userInfo().referrals;
+// }
 
   copyToClipboard() {
     this.clipboard.copy(this.inviteLink());

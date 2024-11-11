@@ -22,10 +22,10 @@ const initialTelegramUserState: TelegramUserState={
             referrals: []
         },
         balanceInfo: {
-            totalBalance: 69,
-            balance: 69,
+            totalBalance: 0,
+            balance: 0,
             tapBalance: 0,
-            refBonus: 69420,
+            refBonus: 0,
             energy: 0
         },
         upgradesInfo: {
