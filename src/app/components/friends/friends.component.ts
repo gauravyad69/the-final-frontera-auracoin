@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { LucideAngularModule } from 'lucide-angular';
@@ -37,23 +37,8 @@ export class FriendsComponent {
   copied = signal(false);
   inviteLink = signal('https://t.me/blum/app?startapp=ref_'+WebApp.initDataUnsafe.user?.id);
 
-  // referrals: Referral[] = [
-  //   { userId: "1", username: 'Alice Johnson', balance: 500, referrals: 3 },
-  //   { userId: "2", username: 'Bob Smith', balance: 750, referrals: 5 },
-  //   { userId: "3", username: 'Charlie Brown', balance: 250, referrals: 1 },
-  //   { userId: "4", username: 'Diana Prince', balance: 1000, referrals: 8 },
-  //   { userId: "5", username: 'Ethan Hunt', balance: 600, referrals: 4 },
-  // ];
-
-  // Just store the referrals directly from state
-  referrals: Referral[] = this.store.telegramUser.userInfo().referrals;
-
-//   constructor() {
-//   }
-
-// ngInit(){
-//   this.referrals =this.store.telegramUser.userInfo().referrals;
-// }
+  // Instead, create a computed signal that will update automatically
+  referrals = computed(() => this.store.telegramUser.userInfo().referrals || []);
 
   copyToClipboard() {
     this.clipboard.copy(this.inviteLink());

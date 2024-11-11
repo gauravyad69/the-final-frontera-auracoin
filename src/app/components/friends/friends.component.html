@@ -31,8 +31,8 @@
       </div>
       <div class="card-content">
         <div class="referrals-list">
-          @if (referrals.length) {
-          @for (referral of referrals; track referral.userId) {
+          @if (referrals().length) {
+          @for (referral of referrals(); track referral.userId) {
           <div class="referral-item">
             <div class="referral-info">
               <h3>{{ referral.username }}</h3>
