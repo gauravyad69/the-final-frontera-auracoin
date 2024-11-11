@@ -97,9 +97,11 @@ export class ApiService {
         userId,
         username,
         firstName:  "",
-        lastName: "",
+        lastName: null,
         isPremium: false,
         refereeId: refereeId,
+        profilePicture: null,
+        refereeUsername: null,
         referrals: []
       },
       balanceInfo: {
