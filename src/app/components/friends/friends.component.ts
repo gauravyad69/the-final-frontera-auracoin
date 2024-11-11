@@ -4,7 +4,8 @@ import { Clipboard } from '@angular/cdk/clipboard';
 import { LucideAngularModule } from 'lucide-angular';
 import { Users, Copy, CheckCircle, Coins } from 'lucide-angular';
 import { TelegramUserStore } from '../../store/user.store';
-import { WebApp } from '@twa-dev/sdk/dist/sdk';
+import WebApp from '@twa-dev/sdk';
+
 
 interface Referral {
   userId: string;
