@@ -45,9 +45,11 @@ export class AppComponent {
 
     //check for referral
     let referreeId = WebApp.initDataUnsafe.start_param;
-    let referreeIdInt=0;
+    let referreeIdInt: number|null;
     if (referreeId) {
-      referreeIdInt = parseInt(String(referreeId).replace(/\D/g, ""));
+      referreeIdInt = parseInt(String(referreeId).replace(/\D/g, ""))
+    }else{
+      referreeIdInt=null
     }
 
     //handle user creation and state management of existing user here.
@@ -63,7 +65,7 @@ export class AppComponent {
 
 
   //calls user facade
-  private async createNewUser(userId: number, username: string, refereeId: number): Promise<void> {
+  private async createNewUser(userId: number, username: string, refereeId: number|null): Promise<void> {
     return new Promise((resolve, reject) => {
       this.userFacade.createUser(userId, username, refereeId).subscribe({
         next: (user) => {
