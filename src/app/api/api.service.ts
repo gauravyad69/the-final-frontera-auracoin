@@ -28,13 +28,13 @@ export class ApiService {
   }
 
   // Auth methods
-  login(userId: string, username: string): Observable<{ token: string }> {
+  login(userId: number, username: string): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`${this.BASE_API_URL}/login`, { userId, username }, { headers: this.headers });
   }
 
 
 
-  register(userId: string, username: string): Observable<{ token: string }> {
+  register(userId: number, username: string): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`${this.BASE_API_URL}/register`, { userId, username })
       .pipe(
         tap(response => {
@@ -51,7 +51,7 @@ export class ApiService {
     return this.http.get<TelegramUser>(`${this.BASE_API_URL}/telegramUser`, { headers: this.headers });
   }
 
-  checkIfUserExistsInDB(userId: string, username: string): Observable<number> {
+  checkIfUserExistsInDB(userId: number, username: string): Observable<number> {
     console.log("trying to get checkUserResponse from the api (api.services.ts)")
     return this.http.post(`${this.BASE_API_URL}/exists`, 
       { 
@@ -87,6 +87,59 @@ export class ApiService {
   // Tap Value methods
   updateUserTapValue(newTapValue: TapValue): Observable<TapValue> {
     return this.http.put<TapValue>(`${this.BASE_API_URL}/tapValue`, newTapValue, { headers: this.headers });
+  }
+
+
+  //api method to create a new user (post) returns the created user
+  createTelegramUser(userId: number, username: string, refereeId: number ): Observable<TelegramUser> {
+    const initialUser: TelegramUser = {
+      userInfo: {
+        userId,
+        username,
+        firstName:  "",
+        lastName: "",
+        isPremium: false,
+        refereeId: refereeId,
+        referrals: []
+      },
+      balanceInfo: {
+        totalBalance: 0,
+        balance: 0,
+        tapBalance: 0,
+        refBonus: 0,
+        energy: 0
+      },
+      upgradesInfo: {
+        freeGuru: 0,
+        fullTank: 0,
+        timeSta: null,
+        timeStaTank: null,
+        tapValue: {
+          level: 1,
+          value: 1
+        },
+        timeRefill: {
+          level: 1,
+          duration: 60,
+          step: 1
+        },
+        level: {
+          id: 1,
+          name: "Beginner",
+          imgUrl: ""
+        },
+        battery: {
+          level: 1,
+          energy: 100
+        }
+      },
+      taskInfo: {
+        tasksCompleted: [],
+        manualTasks: []
+      }
+    };
+
+    return this.http.post<TelegramUser>(`${this.BASE_API_URL}/telegramUser`, initialUser);
   }
 
   // Other methods can be added similarly...

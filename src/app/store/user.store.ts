@@ -13,12 +13,14 @@ type TelegramUserState = {
 const initialTelegramUserState: TelegramUserState={
     telegramUser: {
         userInfo: {
-            userId: '',
+            userId: 0,
             username: '',
             firstName: '',
             lastName: '',
             isPremium: false,
             profilePicture: '',
+            refereeId: 0,
+            refereeUsername: '',
             referrals: []
         },
         balanceInfo: {

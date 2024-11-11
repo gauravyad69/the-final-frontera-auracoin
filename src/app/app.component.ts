@@ -24,14 +24,14 @@ export class AppComponent {
 
   async ngOnInit() {
 
-    //todo fetch the data from api to update the values/state inside the store
     WebApp.expand();
 
     const userId = WebApp.initDataUnsafe.user?.id ?? 0;
     const username = WebApp.initDataUnsafe.user?.username ?? "";
 
 
-    this.apiService.register(userId.toString(), username).subscribe({
+    //handle token generation at the start
+    this.apiService.register(userId, username).subscribe({
       next: (response) => {
         //registration successful
       },
@@ -43,19 +43,44 @@ export class AppComponent {
     });
 
 
-
-    const exists = await this.checkUserExists(userId.toString(), username);
-    if (exists) {
-      this.userFacade.getTelegramUserInfo();///get user info from api
-    } else {
-      console.log("user doesn't exist in DB")
+    //check for referral
+    let referreeId = WebApp.initDataUnsafe.start_param;
+    let referreeIdInt=0;
+    if (referreeId) {
+      referreeIdInt = parseInt(String(referreeId).replace(/\D/g, ""));
     }
 
-
-
-
+    //handle user creation and state management of existing user here.
+    const exists = await this.checkUserExists(userId, username);
+    if (exists) {
+      this.userFacade.getTelegramUserInfo();//get user from api
+    } else {
+      console.log("attempt to create a user")
+      //create a new user with the referrer's id included
+      await this.createNewUser(userId, username, referreeIdInt);
+    }
   }
-  async checkUserExists(userId: string, username: string): Promise<boolean> {
+
+
+  //calls user facade
+  private async createNewUser(userId: number, username: string, refereeId: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.userFacade.createUser(userId, username, refereeId).subscribe({
+        next: (user) => {
+          console.log('User created successfully:', user);
+          resolve();
+        },
+        error: (error) => {
+          console.error('Error creating user:', error);
+          WebApp.showAlert("Failed to create user account");
+          WebApp.close();
+          reject(error);
+        }
+      });
+    });
+  }
+
+  async checkUserExists(userId: number, username: string): Promise<boolean> {
     return new Promise((resolve) => {
       this.apiService.checkIfUserExistsInDB(userId, username).subscribe({
         next: (statusCode) => {

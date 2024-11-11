@@ -6,13 +6,14 @@ export interface TelegramUser {
   }
   
   export interface UserInfo {
-    userId: string;
+    userId: number;
     username: string;
     firstName: string;
     lastName?: string;
     isPremium: boolean;
     profilePicture?: string;
-    refereeId?: string;
+    refereeId?: number;
+    refereeUsername?: string;
     referrals: Referral[];
   }
   
@@ -63,7 +64,7 @@ export interface TelegramUser {
   }
   
   export interface Referral {
-    userId: string;
+    userId: number;
     username: string;
     balance: number;
     referrals: number;

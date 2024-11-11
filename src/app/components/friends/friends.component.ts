@@ -8,7 +8,7 @@ import WebApp from '@twa-dev/sdk';
 
 
 interface Referral {
-  userId: string;
+  userId: number;
   username: string;
   balance: number;
   referrals: number;
@@ -34,7 +34,7 @@ export class FriendsComponent {
   readonly Coins = Coins;
 
   copied = signal(false);
-  inviteLink = signal('https://t.me/blum/app?startapp=ref_'+WebApp.initDataUnsafe.user?.id);
+  inviteLink = signal('https://t.me/auracoin_robot/auracoin?startapp=ref_'+WebApp.initDataUnsafe.user?.id);
 
   // Instead, create a computed signal that will update automatically
   referrals = computed(() => this.store.telegramUser.userInfo().referrals || []);

@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { TelegramUserStore } from '../store/user.store';
 import { TapValue, TelegramUser } from '../store/user.model';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -50,4 +51,12 @@ export class UserFacade {
   }
 
 
+  ///this will call the call to create a user and get the returned user and update the store/state with it
+  createUser(userId: number, username: string, refereeId:number) {
+    return this.api.createTelegramUser(userId, username, refereeId).pipe(
+      tap((user: TelegramUser) => {
+        this.store.updateEverythingInUI(user);
+      })
+    );
+  }
 } 
