@@ -71,13 +71,14 @@
   .btn-copy {
     background-color: #2563eb;
     color: white;
-    padding: 0.5rem;
+    padding: 0.8rem;
     border-radius: 0.375rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     transition: background-color 0.2s;
+    width: 100%;
     
     &:hover {
       background-color: #1d4ed8;

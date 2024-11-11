@@ -27,8 +27,6 @@ export class FriendsComponent {
 
   userInfo = this.store.telegramUser.userInfo;
 
-
-
   // Lucide Icons
   readonly Users = Users;
   readonly Copy = Copy;
