@@ -141,7 +141,7 @@ export class ApiService {
       }
     };
 
-    return this.http.post<TelegramUser>(`${this.BASE_API_URL}/telegramUser`, initialUser);
+    return this.http.post<TelegramUser>(`${this.BASE_API_URL}/telegramUser`,initialUser, { headers: this.headers });
   }
 
   // Other methods can be added similarly...
