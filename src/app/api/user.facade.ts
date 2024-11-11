@@ -52,7 +52,7 @@ export class UserFacade {
 
 
   ///this will call the call to create a user and get the returned user and update the store/state with it
-  createUser(userId: number, username: string, refereeId:number|null, firstName: string, lastName:string, isPremium:boolean, profilePicture:string|null) {
+  createUser(userId: string, username: string, refereeId:number|null, firstName: string, lastName:string, isPremium:boolean, profilePicture:string|null) {
     return this.api.createTelegramUser(userId, username, refereeId, firstName, lastName, isPremium, profilePicture).pipe(
       tap((user: TelegramUser) => {
         this.store.updateEverythingInUI(user);

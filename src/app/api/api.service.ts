@@ -28,13 +28,13 @@ export class ApiService {
   }
 
   // Auth methods
-  login(userId: number, username: string): Observable<{ token: string }> {
+  login(userId: string, username: string): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`${this.BASE_API_URL}/login`, { userId, username }, { headers: this.headers });
   }
 
 
 
-  register(userId: number, username: string): Observable<{ token: string }> {
+  register(userId: string, username: string): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`${this.BASE_API_URL}/register`, { userId, username })
       .pipe(
         tap(response => {
@@ -51,7 +51,7 @@ export class ApiService {
     return this.http.get<TelegramUser>(`${this.BASE_API_URL}/telegramUser`, { headers: this.headers });
   }
 
-  checkIfUserExistsInDB(userId: number, username: string): Observable<number> {
+  checkIfUserExistsInDB(userId: string, username: string): Observable<number> {
     console.log("trying to get checkUserResponse from the api (api.services.ts)")
     return this.http.post(`${this.BASE_API_URL}/exists`, 
       { 
@@ -91,7 +91,7 @@ export class ApiService {
 
 
   //api method to create a new user (post) returns the created user
-  createTelegramUser(userId: number, username: string,refereeId: number|null, firstName: string, lastName:string, isPremium:boolean, profilePicture:string|null ): Observable<TelegramUser> {
+  createTelegramUser(userId: string, username: string,refereeId: number|null, firstName: string, lastName:string, isPremium:boolean, profilePicture:string|null ): Observable<TelegramUser> {
     const initialUser: TelegramUser = {
       userInfo: {
         userId,

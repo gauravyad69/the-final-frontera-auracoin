@@ -6,7 +6,7 @@ export interface TelegramUser {
 }
 
 export interface UserInfo {
-  userId: number;
+  userId: string;
   username: string;
   firstName: string;
   lastName: string | null;
@@ -64,7 +64,7 @@ export interface Battery {
 }
 
 export interface Referral {
-  userId: number;
+  userId: string;
   username: string;
   balance: number;
   referrals: number;

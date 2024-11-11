@@ -27,7 +27,7 @@ export class AppComponent {
 
     WebApp.expand();
 
-    const userId = WebApp.initDataUnsafe.user?.id ?? 0;
+    const userId = WebApp.initDataUnsafe.user?.id.toString() ?? "";
     const username = WebApp.initDataUnsafe.user?.username ?? "";
     const isPremium = WebApp.initDataUnsafe.user?.is_premium ?? false;
     const firstName = WebApp.initDataUnsafe.user?.first_name ?? "";
@@ -71,7 +71,7 @@ console.log("from webapp line 36"+userId,username,isPremium,firstName,lastName)
 
 
   //calls user facade
-  private async createNewUser(userId: number, username: string, refereeId: number|null, firstName: string, lastName:string, isPremium:boolean, profilePicture:string|null): Promise<void> {
+  private async createNewUser(userId: string, username: string, refereeId: number|null, firstName: string, lastName:string, isPremium:boolean, profilePicture:string|null): Promise<void> {
   
     return new Promise((resolve, reject) => {
       this.userFacade.createUser(userId, username, refereeId, firstName, lastName, isPremium, profilePicture).subscribe({
@@ -89,7 +89,7 @@ console.log("from webapp line 36"+userId,username,isPremium,firstName,lastName)
     });
   }
 
-  async checkUserExists(userId: number, username: string): Promise<boolean> {
+  async checkUserExists(userId: string, username: string): Promise<boolean> {
     return new Promise((resolve) => {
       this.apiService.checkIfUserExistsInDB(userId, username).subscribe({
         next: (statusCode) => {

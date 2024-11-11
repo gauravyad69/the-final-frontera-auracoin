@@ -8,7 +8,7 @@ import WebApp from '@twa-dev/sdk';
 
 
 interface Referral {
-  userId: number;
+  userId: string;
   username: string;
   balance: number;
   referrals: number;

@@ -6,7 +6,7 @@ import WebApp from '@twa-dev/sdk';
 ///this is not in use anymore
 export interface User {
   id: number;
-  userId: number;
+  userId: string;
   username: string;
   firstName: string;
   lastName: string;
