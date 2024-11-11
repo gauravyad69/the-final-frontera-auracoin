@@ -53,7 +53,6 @@ export class ApiService {
 
   checkIfUserExistsInDB(userId: string, username: string): Observable<number> {
     console.log("trying to get checkUserResponse from the api (api.services.ts)")
-
     return this.http.post(`${this.BASE_API_URL}/exists`, 
       { 
         userId, 

@@ -1,1 +1,59 @@
-<p>friends works!</p>
+<div class="friends-page">
+  <div class="header">
+    <lucide-icon [img]="Users" class="header-icon"></lucide-icon>
+    <h1>Friends & Referrals</h1>
+  </div>
+
+  <div class="container">
+    <!-- Invite Card -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Invite Friends</h2>
+        <p>Share your unique invite link</p>
+      </div>
+      <div class="card-content">
+        <div class="invite-section">
+          <input [value]="inviteLink()" readonly class="invite-input">
+          <button (click)="copyToClipboard()" class="btn-copy">
+            <lucide-icon [img]="copied() ? CheckCircle : Copy" class="button-icon"></lucide-icon>
+            {{ copied() ? 'Copied!' : 'Copy Link' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Referrals Card -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Your Referrals</h2>
+        <p>Friends you've referred</p>
+      </div>
+      <div class="card-content">
+        <div class="referrals-list">
+          @if (referrals.length) {
+          @for (referral of referrals; track referral.userId) {
+          <div class="referral-item">
+            <div class="referral-info">
+              <h3>{{ referral.username }}</h3>
+              <p>
+                <lucide-icon [img]="Users" class="small-icon"></lucide-icon>
+                {{ referral.referrals }} referrals
+              </p>
+            </div>
+            <div class="referral-balance">
+              <lucide-icon [img]="Coins" class="coins-icon"></lucide-icon>
+              <span>{{ referral.balance }}</span>
+            </div>
+          </div>
+          }
+          } @else {
+          <div class="no-referrals">
+            <p>No referrals yet</p>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

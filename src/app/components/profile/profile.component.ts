@@ -1,9 +1,5 @@
 // profile.component.ts
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { UserService } from './user.service';
-import { User } from './user.service';
 import { TelegramUserStore } from '../../store/user.store';
 import { UserFacade } from '../../api/user.facade';
 
@@ -16,7 +12,7 @@ import { UserFacade } from '../../api/user.facade';
 
 export class ProfileComponent {
   store = inject(TelegramUserStore);
-  private userFacade = inject(UserFacade);
+  // private userFacade = inject(UserFacade);
 
   // Access store values
   userInfo = this.store.telegramUser.userInfo;
@@ -34,6 +30,7 @@ export class ProfileComponent {
 
   openWallet() {
     console.log('Opening wallet...');
+    
   }
 
   openHistory() {

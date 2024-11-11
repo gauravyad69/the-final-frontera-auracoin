@@ -66,7 +66,7 @@ export interface TelegramUser {
     userId: string;
     username: string;
     balance: number;
-    level: Level;
+    referrals: number;
   }
   
   
