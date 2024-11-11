@@ -6,6 +6,7 @@ import WebApp from '@twa-dev/sdk';
 import { TelegramUserStore } from './store/user.store';
 import { ApiService } from './api/api.service';
 import { UserFacade } from './api/user.facade';
+import { first, last } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,11 @@ export class AppComponent {
 
     const userId = WebApp.initDataUnsafe.user?.id ?? 0;
     const username = WebApp.initDataUnsafe.user?.username ?? "";
+    const isPremium = WebApp.initDataUnsafe.user?.is_premium ?? false;
+    const firstName = WebApp.initDataUnsafe.user?.first_name ?? "";
+    const lastName = WebApp.initDataUnsafe.user?.last_name ?? "";
 
+console.log("from webapp line 36"+userId,username,isPremium,firstName,lastName)
 
     //handle token generation at the start
     this.apiService.register(userId, username).subscribe({
@@ -46,8 +51,9 @@ export class AppComponent {
     //check for referral
     let referreeId = WebApp.initDataUnsafe.start_param;
     let referreeIdInt: number|null;
-    if (referreeId) {
+    if (referreeId!=null||undefined) {
       referreeIdInt = parseInt(String(referreeId).replace(/\D/g, ""))
+      console.log("the referre id is:"+referreeIdInt+", unparsed:"+referreeId)
     }else{
       referreeIdInt=null
     }
@@ -59,15 +65,16 @@ export class AppComponent {
     } else {
       console.log("attempt to create a user")
       //create a new user with the referrer's id included
-      await this.createNewUser(userId, username, referreeIdInt);
+      await this.createNewUser(userId, username, referreeIdInt, firstName, lastName, isPremium, null);
     }
   }
 
 
   //calls user facade
-  private async createNewUser(userId: number, username: string, refereeId: number|null): Promise<void> {
+  private async createNewUser(userId: number, username: string, refereeId: number|null, firstName: string, lastName:string, isPremium:boolean, profilePicture:string|null): Promise<void> {
+  
     return new Promise((resolve, reject) => {
-      this.userFacade.createUser(userId, username, refereeId).subscribe({
+      this.userFacade.createUser(userId, username, refereeId, firstName, lastName, isPremium, profilePicture).subscribe({
         next: (user) => {
           console.log('User created successfully:', user);
           resolve();
