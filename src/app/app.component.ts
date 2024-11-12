@@ -49,13 +49,9 @@ console.log("from webapp line 36"+userId,username,isPremium,firstName,lastName)
 
 
     //check for referral
-    let referreeId = WebApp.initDataUnsafe.start_param;
-    let referreeIdInt: number|null;
+    let referreeId = WebApp.initDataUnsafe.start_param??"";
     if (referreeId!=null||undefined) {
-      referreeIdInt = parseInt(String(referreeId).replace(/\D/g, ""))
-      console.log("the referre id is:"+referreeIdInt+", unparsed:"+referreeId)
-    }else{
-      referreeIdInt=null
+      referreeId = String(referreeId).replace(/\D/g, "")
     }
 
     //handle user creation and state management of existing user here.
@@ -65,13 +61,13 @@ console.log("from webapp line 36"+userId,username,isPremium,firstName,lastName)
     } else {
       console.log("attempt to create a user")
       //create a new user with the referrer's id included
-      await this.createNewUser(userId, username, referreeIdInt, firstName, lastName, isPremium, null);
+      await this.createNewUser(userId, username, referreeId, firstName, lastName, isPremium, null);
     }
   }
 
 
   //calls user facade
-  private async createNewUser(userId: string, username: string, refereeId: number|null, firstName: string, lastName:string, isPremium:boolean, profilePicture:string|null): Promise<void> {
+  private async createNewUser(userId: string, username: string, refereeId: string|null, firstName: string, lastName:string, isPremium:boolean, profilePicture:string|null): Promise<void> {
   
     return new Promise((resolve, reject) => {
       this.userFacade.createUser(userId, username, refereeId, firstName, lastName, isPremium, profilePicture).subscribe({

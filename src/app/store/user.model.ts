@@ -12,7 +12,7 @@ export interface UserInfo {
   lastName: string | null;
   isPremium: boolean;
   profilePicture: string | null;
-  refereeId: number | null;
+  refereeId: string | null;
   refereeUsername: string | null;
   referrals: Referral[];
 }

@@ -91,7 +91,7 @@ export class ApiService {
 
 
   //api method to create a new user (post) returns the created user
-  createTelegramUser(userId: string, username: string,refereeId: number|null, firstName: string, lastName:string, isPremium:boolean, profilePicture:string|null ): Observable<TelegramUser> {
+  createTelegramUser(userId: string, username: string,refereeId: string|null, firstName: string, lastName:string, isPremium:boolean, profilePicture:string|null ): Observable<TelegramUser> {
     const initialUser: TelegramUser = {
       userInfo: {
         userId,
